@@ -1,51 +1,38 @@
 <template>
-    <div>
+    <div id="app">
         <v-header></v-header>
-        <div class="container">
-            <div class="wrapper">
-                <transition name="fade" mode="out-in">
-                    <router-view></router-view>
-                </transition>    
-            </div>
-            
+        <v-tab></v-tab>
+        <div class="header">
+            header
         </div>
-         
-        <v-footer></v-footer>
+        <div class="tab">
+            tab
+        </div>
+        <div class="content">
+            content
+        </div>
     </div>
 </template>
 
 <script>
-import vHeader from './components/Header'
-import VFooter from './components/Footer'
-
-export default {
-    name: 'app',
-    components: {
-        vHeader,
-        VFooter
-    }
-}
+    import header from './components/header/header.vue';
+    import tab from './components/tab/tab.vue';
+    export default {
+        name: 'app',
+        components: {
+            'v-header': header,
+            'v-tab': tab
+        }
+    };
 </script>
 
 <style>
-    @import './assets/scss/common.scss';
-    @import './assets/scss/iconfont/iconfont.css';
-    .container{
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        background: #fff;
-    }
-    a.router-link-active{
-        color:#F66;
-    }
-    li.router-link-active a{
-        color:#F66;
-    }
-    .fade-enter-active, .fade-leave-active{
-        transition:opacity 0.5s;
-    }
-    .fade-enter, .fade-leave-active{
-        opacity: 0;
-    }
-
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
