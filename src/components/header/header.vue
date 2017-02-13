@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		头部
-		<div>内容</div>
+		<!-- <mt-header fixed title="固定在顶部">mint-header</mt-header> -->
 	</div>
 </template>
 
