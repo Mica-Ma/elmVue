@@ -11,9 +11,9 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 // import routes from './router';
 
-import Goods from './components/goods';
-import Ratings from './components/ratings';
-import Seller from './components/seller';
+import Goods from './components/goods/goods';
+import Ratings from './components/ratings/ratings';
+import Seller from './components/seller/seller';
 
 Vue.use(MintUI);
 Vue.use(VueRouter);

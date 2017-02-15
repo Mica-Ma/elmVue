@@ -65,7 +65,7 @@
                     // debugger
                     this.seller = response.data.data
                 };
-                console.log(this.seller);
+                // console.log(this.seller);
             });
         },
         methods: {
