@@ -35,7 +35,7 @@
             <div class="tab-item"><router-link to="/ratings">评论</router-link></div>
             <div class="tab-item"><router-link to="/seller">商家</router-link></div>
         </div>
-        <router-view></router-view>
+        <router-view :seller="seller"></router-view>
     </div>
 </template>
 
@@ -61,7 +61,7 @@
             this.axios.get('/api/seller').then((response) => {
                 // console.log(response.data);
                 // this.seller = response.data
-                if (response.data.errno === 0) {
+                if (response.data.errno === ERR_OK) {
                     // debugger
                     this.seller = response.data.data
                 };

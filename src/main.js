@@ -15,6 +15,9 @@ import Goods from './components/goods/goods';
 import Ratings from './components/ratings/ratings';
 import Seller from './components/seller/seller';
 
+// import FastClick from 'fastclick';
+// FastClick.attach(document.body);
+
 Vue.use(MintUI);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios)

@@ -30,17 +30,27 @@
 									<span class="now">￥{{food.price}}</span>
 									<span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
 								</div>
+								<div class="cartcontrol-wrapper">
+									<v-cartcontrol :food="food"></v-cartcontrol>
+								</div>
+								
 							</div>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
+		<div class="shop-cart">
+			<v-shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></v-shopcart>
+		</div>
 	</div>
 </template>
 
 <script>
 	import BScroll from 'better-scroll';
+	import shopcart from 'components/shopcart/shopcart';
+	import cartcontrol from 'components/cartcontrol/cartcontrol';
+
 	const ERR_OK = 0;
 	export default {
 		props: {
@@ -50,10 +60,34 @@
 		},
 		data () {
 			return {
-				goods: {},
+				goods: [],
 				listHeight: [],
-				scrollY: 0
+				scrollY: 0,
+				selectedFood: ''
 			}
+		},
+		components: {
+			"v-shopcart": shopcart,
+			"v-cartcontrol": cartcontrol
+		},
+		created () {
+			this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+
+			this.axios.get('/api/goods').then((response) => {
+                // console.log(response.data);
+                // this.seller = response.data
+                if (response.data.errno === ERR_OK) {
+                    // debugger
+                    this.goods = response.data.data;
+                    // console.log(this.goods)
+                    this.$nextTick(() => {
+                    	this._initScroll();
+                    	this._calculateHeight();
+                    })
+                    
+                };
+                // console.log(this.goods);
+            });
 		},
 		computed: {
 			currentIndex () {
@@ -65,25 +99,22 @@
 					}
 				}
 				return 0;
-			}
-		},
-		created () {
-			this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-
-			this.axios.get('/api/goods').then((response) => {
-                // console.log(response.data);
-                // this.seller = response.data
-                if (response.data.errno === ERR_OK) {
-                    // debugger
-                    this.goods = response.data.data;
-                    this.$nextTick(() => {
-                    	this._initScroll();
-                    	this._calculateHeight();
-                    })
-                    
-                };
-                // console.log(this.goods);
-            });
+			},
+			selectFoods() {
+		      	let foods = []
+		      	// console.log(this.goods)
+		      	
+		      	this.goods.forEach((good) => {
+		        	good.foods.forEach((food) => {
+		          		if (food.count) {
+		            		foods.push(food)
+		          		}
+		        	})
+		      	})
+		      	return foods	
+		      	
+		      	
+		    }
 		},
 		methods: {
 			_initScroll () {
@@ -91,7 +122,8 @@
 					click: true
 				});
 				this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
-					probeType: 3
+					probeType: 3,
+					click: true
 				});
 				this.foodsScroll.on('scroll', (pos) => {
 					this.scrollY = Math.abs(Math.round(pos.y));
@@ -182,7 +214,7 @@
 					display: table-cell;
 					width: 56px;
 					vertical-align: middle;
-					@include border-bottom-1px(rgba(7, 17, 27, 0.1))
+					@include border-bottom-1px(rgba(7, 17, 27, 0.1));
 				}
 			}
 		}
@@ -201,9 +233,9 @@
 				.food-item{
 					display: flex;
 					padding: 18px;
-					@include border-bottom-1px(rgba(7, 17, 27, 0.1))
+					@include border-bottom-1px(rgba(7, 17, 27, 0.1));
 					&.last-child{
-						@include border-none()
+						@include border-none();
 					}
 					.icon{
 						flex: 0 0 57px;
@@ -245,6 +277,11 @@
 								font-size: 10px;
 								color: rgb(147, 153, 159); 
 							}
+						}
+						.cartcontrol-wrapper{
+							position: absolute;
+							right: 12px;
+							bottom: 12px;
 						}
 					}
 				}

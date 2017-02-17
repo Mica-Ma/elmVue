@@ -2,10 +2,12 @@
 
 </template>
 
-<script type="text/ecmascript-6">
-
+<script>
+	export default{
+		
+	}
 </script>
 
-<style>
+<style lang="scss">
 
 </style>
