@@ -15,11 +15,39 @@
 				<div class="pay" :class="payClass">{{payDesc}}</div>
 			</div>
 		</div>
+		<div class="ball-content">
+			<transition>
+				<div class="ball" v-for="ball in balls" v-show="ball.show">
+					<div class="inner"></div>
+				</div>
+			</transition>
+		</div>
 	</div>
 </template>
 
 <script>
 	export default{
+		data () {
+			return {
+				balls: [
+					{
+						show: false
+					},
+					{
+						show: false
+					},
+					{
+						show: false
+					},
+					{
+						show: false
+					},
+					{
+						show: false
+					}
+				]
+			}
+		},
 		props: {
 			selectFoods: {
 				type: Array,
@@ -178,6 +206,15 @@
 						color: #fff;
 					}
 				}
+			}
+		}
+		.ball-content{
+			.ball{
+				position: fixed;
+				left: 32px;
+				bottom: 22px;
+				z-index: 200;
+				
 			}
 		}
 	}

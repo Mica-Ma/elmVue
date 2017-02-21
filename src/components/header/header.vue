@@ -85,7 +85,7 @@ import star from 'components/star/star';
 			};
 		},
 		created () {
-			this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+			this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
 		},
 		methods: {
 			showDetail () {
