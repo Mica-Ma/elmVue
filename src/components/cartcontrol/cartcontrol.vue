@@ -35,8 +35,9 @@
 				}
 				// 存储当前点击的元素，在购物车中会用到
       			// this.$store.addCartEl = event.target
-      			this.$root.eventHub.$emit('cart.add', event.target)
       			// debugger
+      			this.$root.eventHub.$emit('cart.add', event.target)
+      			
 				// this.$emit('cart.add', event.target)
 
 			},

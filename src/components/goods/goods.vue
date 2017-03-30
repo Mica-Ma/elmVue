@@ -151,13 +151,10 @@
 				
 			},
 			_drop (target) {
-				debugger
-				this.$refs.shopcart.drop(target);
-			}
-		},
-		events: {
-			'cart.add'(target) {
-				this._drop(target)
+				// 优化异步执行动画
+				this.$nextTick(() => {
+					this.$refs.shopcart.drop(target);
+				})
 			}
 		}
 	}
