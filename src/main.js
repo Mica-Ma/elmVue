@@ -11,16 +11,35 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 // import routes from './router';
 
+// import vueTap from 'v-tap'
+// import fastclick from 'fastclick'
+// import Vuex from 'vuex'
+
 import Goods from './components/goods/goods';
 import Ratings from './components/ratings/ratings';
 import Seller from './components/seller/seller';
 
 // import FastClick from 'fastclick';
 // FastClick.attach(document.body);
-
+// Vue.use(vueTap)
 Vue.use(MintUI);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios)
+
+// Vue.use(Vuex)
+
+// const store = new Vuex.Store({
+//   state: {
+//     count: 0
+//   },
+//   // 添加的商品元素
+//   addCartEl: {},
+//   mutations: {
+//     increment(state) {
+//       state.count++
+//     }
+//   }
+// })
 
 const routes = [
     // { path: '/', component: Goods },
@@ -40,7 +59,11 @@ const router = new VueRouter({
 new Vue({
     el: '#app',
     router,
+    // store,
     template: '<App/>',
-    components: { App }
+    components: { App },
+    data: {
+        eventHub: new Vue()
+    }
 });
 router.push('goods');

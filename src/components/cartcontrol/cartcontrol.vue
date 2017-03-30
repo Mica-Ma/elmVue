@@ -33,6 +33,12 @@
 				} else {
 					this.food.count ++;
 				}
+				// 存储当前点击的元素，在购物车中会用到
+      			// this.$store.addCartEl = event.target
+      			this.$root.eventHub.$emit('cart.add', event.target)
+      			// debugger
+				// this.$emit('cart.add', event.target)
+
 			},
 			decreaseCart (event) {
 				if(!event._constructed) return;
@@ -50,6 +56,7 @@
 		.cart-decrease{
 			display: inline-block;
 			padding: 6px;
+			transition: all .4s linear;
 			.inner{
 				display: inline-block;
 				line-height: 24px;
@@ -58,13 +65,18 @@
 				transition: all .4s linear;
 			}
 			&.move-enter-active, &.move-leave-active{
-				transition: all .4s linear;
+				transform: translate3d(0, 0, 0);
+				.inner{
+					transform: rotate(0);
+				}
 			}
 			&.move-enter, &.move-leave-active{
 				opacity: 0;
 			 	transform: translate3d(24px, -4px, 0);
+
 				.inner{
 					transform: rotate(180deg);
+					transform-origin: center center 0;
 					// transform: translateY(-1px)
 				}
 			}

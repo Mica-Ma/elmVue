@@ -41,7 +41,7 @@
 			</ul>
 		</div>
 		<div class="shop-cart">
-			<v-shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></v-shopcart>
+			<v-shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" ref="shopcart"></v-shopcart>
 		</div>
 	</div>
 </template>
@@ -111,9 +111,7 @@
 		          		}
 		        	})
 		      	})
-		      	return foods	
-		      	
-		      	
+		      	return foods;  	
 		    }
 		},
 		methods: {
@@ -151,6 +149,15 @@
 				// console.log(height);
 				// this.foodsScroll.scrollTo(0, height, 300);
 				
+			},
+			_drop (target) {
+				debugger
+				this.$refs.shopcart.drop(target);
+			}
+		},
+		events: {
+			'cart.add'(target) {
+				this._drop(target)
 			}
 		}
 	}

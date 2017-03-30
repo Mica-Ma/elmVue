@@ -16,16 +16,22 @@
 			</div>
 		</div>
 		<div class="ball-content">
-			<transition>
+			<transition name="drop" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-for="(ball,index) in balls">
+	       		<div class="ball" v-show="ball.show">
+	          		<div class="inner inner-hook"></div>
+	       		</div>
+	     	</transition>
+			<!-- <transition>
 				<div class="ball" v-for="ball in balls" v-show="ball.show">
 					<div class="inner"></div>
 				</div>
-			</transition>
+			</transition> -->
 		</div>
 	</div>
 </template>
 
 <script>
+	import Vue from 'vue';
 	export default{
 		data () {
 			return {
@@ -45,7 +51,8 @@
 					{
 						show: false
 					}
-				]
+				],
+				dropBalls: []
 			}
 		},
 		props: {
@@ -65,6 +72,8 @@
 			}
 		},
 		created () {
+			// this.$on('cart.add', this.drop)
+			this.$root.eventHub.$on('cart.add', this.drop)
 			// console.log(this.selectFoods)	
 		},
 		computed: {
@@ -98,6 +107,54 @@
 					return 'not-enough';
 				}
 			}
+		},
+		methods: {
+			drop(el) {
+				// console.log(el)
+		      	for (let i = 0, l = this.balls.length; i < l; i++) {
+		        	let ball = this.balls[i]
+		        	if (!ball.show) {
+		          		ball.show = true
+		          		ball.el = el
+		          		this.dropBalls.push(ball)
+		          		return
+		        	}
+		      	}
+    		},
+			beforeEnter(el) {
+		      	let count = this.balls.length
+		     	while (count--) {
+			        let ball = this.balls[count]
+			        if (ball.show) {
+			          	let rect = ball.el.getBoundingClientRect()
+			          	let x = rect.left - 32;
+			          	let y = -(window.innerHeight - rect.top - 22)
+			          	el.style.display = ''
+			          	el.style.webkitTransform = `translate3d(0,${y}px,0)`
+			          	el.style.transform = `translate3d(0,${y}px,0)`
+			          	let inner = el.querySelector('.inner-hook')
+			          	inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+			          	inner.style.transform = `translate3d(${x}px,0,0)`
+			        }
+		      	}
+		    },
+		    enter(el) {
+		      	el.offsetHeight
+		      	this.$nextTick(() => {
+		        	el.style.webkitTransform = 'translate3d(0,0,0)'
+		        	el.style.transform = 'translate3d(0,0,0)'
+		        	let inner = el.querySelector('.inner-hook')
+		        	inner.style.webkitTransform = 'translate3d(0,0,0)'
+		        	inner.style.transform = 'translate3d(0,0,0)'
+		     	})
+		    },
+		    afterEnter(el) {
+		      	let ball = this.dropBalls.shift()
+		      	if (ball) {
+		        	ball.show = false
+		        	el.style.display = 'none'
+		      	}
+		    }
 		}
 	}
 </script>
@@ -214,6 +271,17 @@
 				left: 32px;
 				bottom: 22px;
 				z-index: 200;
+				&.drop-enter,&.drop-enter-active{
+					transition: all 0.4s cubic-bezier(0.49,-0.29,0.75,0.41);
+					.inner{
+						width: 16px;
+			          	height: 16px;
+			          	border-radius: 50%;
+			          	background: rgb(0,160,220);
+			          	transition: all 0.4s linear;
+					}
+          
+				}
 				
 			}
 		}
