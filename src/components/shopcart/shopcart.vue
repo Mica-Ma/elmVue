@@ -162,7 +162,7 @@
 		},
 		methods: {
 			drop(el) {
-				console.log(el)
+				// console.log(el)
 		      	for (let i = 0, l = this.balls.length; i < l; i++) {
 		        	let ball = this.balls[i]
 		        	if (!ball.show) {
