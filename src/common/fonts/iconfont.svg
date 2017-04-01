@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>
-Created by FontForge 20120731 at Fri Mar 31 17:06:48 2017
+Created by FontForge 20120731 at Sat Apr  1 12:36:08 2017
  By admin
 </metadata>
 <defs>
@@ -19,7 +19,7 @@ Created by FontForge 20120731 at Fri Mar 31 17:06:48 2017
     bbox="0 -171 1139 896"
     underline-thickness="0"
     underline-position="0"
-    unicode-range="U+0078-E6EF"
+    unicode-range="U+0078-E6F1"
   />
 <missing-glyph 
  />
@@ -58,11 +58,14 @@ t-93 139t-34.5 168.5t34.5 168.5t93 139t139 93t168.5 34.5t168.5 -34.5t139 -93t93 
     <glyph glyph-name="jia" unicode="&#xe6e7;" 
 d="M512 896q-138 0 -256 -69t-187 -187t-69 -256t69 -256t187 -187t256 -69t256 69t187 187t69 256t-69 256t-187 187t-256 69zM829 374q0 -23 -14 -37t-37 -14h-205v-205q0 -23 -14 -37t-37 -14h-20q-23 0 -37 14t-14 37v205h-205q-23 0 -37 14t-14 37v20q0 23 14 37t37 14
 h205v205q0 23 14 37t37 14h25q23 0 37.5 -14t14.5 -37v-205h204q23 0 37.5 -14t14.5 -37v-20h-6z" />
-    <glyph glyph-name="pingjia_haoping" unicode="&#xe62f;" 
-d="M745 -13h-410v410q108 310 128 358q10 22 26.5 25t29.5 -5.5t21 -19.5q5 -5 8.5 -10.5t6 -11.5t4.5 -10t3.5 -12t2 -10.5t1 -12t0.5 -11v-12.5v-12v-154h307q2 0 5 -0.5t11 -3.5t14.5 -7t12 -12t6.5 -18l-23 -317q0 -64 -45.5 -109t-108.5 -45zM156 -13q-21 0 -36 15
-t-15 36v308q0 21 15 36t36 15h128v-410h-179h51z" />
     <glyph glyph-name="icon" unicode="&#xe603;" 
 d="M513 828q-90 0 -172.5 -35t-141.5 -94.5t-94.5 -141.5t-35.5 -172.5t35.5 -172.5t94.5 -141.5t141.5 -94.5t172.5 -35t172.5 35t141.5 94.5t94.5 141.5t35.5 172.5t-35.5 172.5t-94.5 141.5t-141.5 94.5t-172.5 35zM454 191h-52l-166 181l37 37l157 -107l379 305l31 -31z
 " />
+    <glyph glyph-name="pingjia_haoping" unicode="&#xe6f0;" 
+d="M745 -13h-410v410q108 310 128 358q10 22 26.5 25t29.5 -5.5t21 -19.5q5 -5 8.5 -10.5t6 -11.5t4.5 -10t3.5 -12t2 -10.5t1 -12t0.5 -11v-12.5v-12v-154h307q2 0 5 -0.5t11 -3.5t14.5 -7t12 -12t6.5 -18l-23 -317q0 -64 -45.5 -109t-108.5 -45zM156 -13q-21 0 -36 15
+t-15 36v308q0 21 15 36t36 15h128v-410h-128z" />
+    <glyph glyph-name="pingjia_chaping" unicode="&#xe6f1;" 
+d="M279 781h410v-410q-108 -310 -128 -358q-10 -22 -26.5 -25t-29.5 5.5t-21 19.5q-5 5 -8.5 10.5t-6 11.5t-4.5 10t-3.5 12t-2 10.5t-1 12t-0.5 11v12.5v12v154h-307q-2 0 -5 0.5t-11 3.5t-14.5 7t-12 12t-6.5 18l23 317q0 64 45.5 109t108.5 45zM868 781q21 0 36 -15
+t15 -36v-308q0 -21 -15 -36t-36 -15h-128v410h128z" />
   </font>
 </defs></svg>

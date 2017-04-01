@@ -1,11 +1,11 @@
 <template>
 	<div class="ratingselect">
 		<div class="rating-type border-1px">
-			<span @click="select(2, $event)" class="block positive" :class="{'active': selectType === 2}">{{desc.all}}<span class="count">67</span></span>
-			<span @click="select(0, $event)" class="block positive" :class="{'active': selectType === 0}">{{desc.positive}}<span class="count">45</span></span>
-			<span @click="select(1, $event)" class="block negative" :class="{'active': selectType === 1}">{{desc.negative}}<span class="count">12</span></span>
+			<span @click="select(2, $event)" class="block positive" :class="{'active': mySelectType === 2}">{{desc.all}}<span class="count">{{ratings.length}}</span></span>
+			<span @click="select(0, $event)" class="block positive" :class="{'active': mySelectType === 0}">{{desc.positive}}<span class="count">{{positives.length}}</span></span>
+			<span @click="select(1, $event)" class="block negative" :class="{'active': mySelectType === 1}">{{desc.negative}}<span class="count">{{negatives.length}}</span></span>
 		</div>
-		<div class="swich" :class="{'on': onlyContent}">
+		<div @click="toggleContent" class="swich" :class="{'on': myOnlyContent}">
 			<span class="iconfont icon-tubiaozongjie31"></span>
 			<span class="text">只看有内容的评价</span>
 		</div>
@@ -43,11 +43,44 @@
 				}
 			}
 		},
+		computed: {
+			positives () {
+				return this.ratings.filter((rating) => {
+					return rating.rateType === POSITIVE;
+				})
+			},
+			negatives () {
+				return this.ratings.filter((rating) => {
+					return rating.rateType === NEGATIVE;
+				})
+			}
+		},
+		data () {
+			return {
+				mySelectType: this.selectType,
+				myOnlyContent: this.onlyContent
+			}
+		},
 		methods: {
 			select (type, event) {
-				if(event._constructed) return;
-				this.selectType = type;
+				if(!event._constructed) return;
+				this.mySelectType = type;
+				this.$root.eventHub.$emit('ratingtype.select', type);
+				// console.log(this.selectType)
+			},
+			toggleContent (event) {
+				if(!event._constructed) return;
+				this.myOnlyContent = !this.myOnlyContent;
+				this.$root.eventHub.$emit('content.toggle', this.myOnlyContent);
 			}
+		},
+		watch: {
+			// selectType (val) {
+			// 	this.mySelectType = val;
+			// },
+			// mySelectType (val) {
+			// 	this.$root.eventHub.$emit('ratingtype.select', val);
+			// },
 		}
 	}
 </script>

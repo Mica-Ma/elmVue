@@ -34,6 +34,22 @@
 				<div class="rating">
 					<h1 class="title">商品评价</h1>
 					<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+					<div class="rating-wrapper">
+						<ul v-show="food.ratings && food.ratings.length">
+							<!-- <li v-for="rating in food.ratings" class="rating-item border-1px" v-show="selectType == rating.rateType || selectType == 2"> -->
+							<li v-for="rating in food.ratings" class="rating-item border-1px" v-show="needShow(rating.rateType, rating.text)">
+								<div class="user">
+									<div class="name">{{rating.username}}</div>
+									<img :src="rating.avatar" width="12" height="12" class="avatar">
+								</div>
+								<div class="time">{{rating.rateTime | formatDate}}</div>
+								<p class="text">
+									<i class="iconfont" :class="{'icon-pingjia_haoping': rating.rateType === 0,'icon-pingjia_chaping': rating.rateType === 1}"></i>{{rating.text}}
+								</p>
+							</li>
+						</ul>
+						<div class="no-rating" v-show="!food.ratings || !food.ratings.length">暂无评价</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,6 +63,7 @@
 	import cartcontrol from 'components/cartcontrol/cartcontrol';
 	import ratingselect from 'components/ratingselect/ratingselect';
 	import split from 'components/split/split';
+	import {formatDate} from 'common/js/date';
 
 	const POSITIVE = 0;
 	const NEGATIVE = 1;
@@ -62,6 +79,14 @@
 			split,
 			ratingselect
 		},
+		created () {
+			this.$root.eventHub.$on('ratingtype.select', this.selectTypeRating);
+			this.$root.eventHub.$on('content.toggle', this.onlyContentRating);
+			
+		},
+		computed: {
+
+		},
 		data () {
 			return {
 				showFlag: false,
@@ -74,17 +99,22 @@
 				}
 			}
 		},
+		filters: {
+			formatDate (time) {
+				let date = new Date(time);
+				return formatDate(date, 'YYYY-MM-DD HH:mm')
+			}
+		},
 		methods: {
 			show () {
 				this.showFlag = true;
-				selectType: ALL;
-				onlyContent: true;
 				this.$nextTick(() => {
 					if (!this.scroll){
 						this.scroll = new BScroll(this.$refs.food, {
 							click: true
 						})
 					} else {
+						console.log(this.scroll)
 						this.scroll.refresh();
 					}
 					
@@ -97,12 +127,38 @@
 				if(!event._constructed) return;
 				Vue.set(this.food, 'count', 1);
 				this.$root.eventHub.$emit('cart.add', event.target);
+			},
+			selectTypeRating (type) {
+				console.log(type)
+				this.selectType = type;
+				this.$nextTick(() => {
+					console.log(this)
+					this.scroll.refresh();
+				})
+			},
+			onlyContentRating (onlyContent) {
+				this.onlyContent = onlyContent;
+				this.$nextTick(() => {
+					console.log(this)
+					this.scroll.refresh();
+				})
+			},
+			needShow (type, text) {
+				if (this.onlyContent && !text) {
+					return false;
+				}
+				if (this.selectType === ALL){
+					return true;
+				}else{
+					return type === this.selectType;
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	@import "../../common/sass/mixin.scss";
 	.food{
 		position: fixed;
 		top: 0;
@@ -228,7 +284,58 @@
 				margin-left: 18px;
 				color: rgb(7, 17, 27);
 			}
+			.rating-wrapper{
+				padding: 0 18px;
+				.rating-item{
+					position: relative;
+					padding: 16px 0;
+					@include border-bottom-1px(rgba(7, 17, 27, 0.1));
+					.user{
+						position: absolute;
+						right: 0;
+						top: 16px;
+						font-size: 0;
+						line-height: 12px;
+						.name{
+							color: rgb(147, 153, 159);
+							display: inline-block;
+							vertical-align: top;
+							font-size: 10px;
+							margin-right: 6px;
+						}
+						.avatar{
+							border-radius: 50%;
+						}
+					}
+					.time{
+						margin-bottom: 6px;
+						font-size: 10px;
+						line-height: 12px;
+						color: rgb(147, 153, 159);
+					}
+					.text{
+						line-height: 16px;
+						font-size: 12px;
+						color: rgb(7, 17, 27);
+						.icon-pingjia_haoping, .icon-pingjia_chaping{
+							margin-right: 4px;
+							line-height: 16px;
+							font-size: 12px;
+						}
+						.icon-pingjia_haoping{
+							color: rgb(0, 160, 220);
+						}
+						.icon-pingjia_chaping{
+							color: rgb(147, 153, 159);
+						}
+					}
+				}
+				.no-rating{
+					padding: 16px 0;
+					font-size: 12px;
+					color: rgb(147, 153, 159);
+				}
+			}
 		}
-		
 	}
 </style>
