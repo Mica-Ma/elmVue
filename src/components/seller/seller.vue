@@ -121,7 +121,10 @@
 				// debugger
 				// console.log(this.seller)
 				// console.log(this.seller)
-				if(!this.scroll) {
+				if(this.scroll) {
+					this.$delete(this.scroll, 'scroll')
+				}
+				// if(!this.scroll) {
 					this.$nextTick(() => {
 						// console.log(this.$refs.seller)
 						this.scroll = new BScroll(this.$refs.seller, {
@@ -129,10 +132,10 @@
 						})
 					})
 					
-				} else {
-					console.log(this.scroll)
-					this.scroll.refresh();
-				}
+				// }else {
+				// 	console.log(this.scroll)
+				// 	this.scroll.refresh();
+				// }
 				this._initPicScroll()
 			},
 			_initPicScroll () {
