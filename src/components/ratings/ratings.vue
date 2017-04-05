@@ -25,10 +25,10 @@
 				</div>
 			</div>
 			<split></split>
-			<ratingselect :select-type="selectType" :only-content="onlyContent" :ratings="ratings"></ratingselect>
+			<ratingselect :select-form="'ratings'" :select-type="selectType" :only-content="onlyContent" :ratings="ratings"></ratingselect>
 			<div class="rating-wrapper">
 				<ul>
-					<li class="rating-item" v-for="rating in ratings">
+					<li class="rating-item" v-for="rating in ratings" v-show="needShow(rating.rateType, rating.text)">
 						<div class="avatar">
 							<img :src="rating.avatar" width="28" height="28">
 						</div>
@@ -40,8 +40,8 @@
 							</div>
 							<p class="text">{{rating.text}}</p>
 							<div class="recommend" v-show="rating.recommend && rating.recommend.length">
-								<i class="iconfont icon-pingjia-haoping"></i>
-								<span v-for="item in rating.recommend">{{item}}</span>
+								<i class="iconfont icon-pingjia_haoping"></i>
+								<span class="item" v-for="item in rating.recommend">{{item}}</span>
 							</div>
 							<div class="time">{{rating.rateTime | formatDate}}</div>
 						</div>
@@ -90,32 +90,80 @@
 		},
 		created () {
 			// let _this = this;
+			// if (!this.ratings) return; 
 			this.axios.get('/api/ratings').then((response) => {
 				if (response.data.errno === ERR_OK) {
                     // debugger
                     this.ratings = response.data.data;
 
                     this.$nextTick(() => {
-                    	// console.log(this.$refs.ratings)
+                    	// console.log(this)
 	                    this.scroll = new BScroll(this.$refs.ratings, {
 	                    	click: true
-	                    })	
+	                    })    	
                     })
-                    
-                    // console.log(this.goods)
-                    // this.$nextTick(() => {
-                    // 	this._initScroll();
-                    // 	this._calculateHeight();
-                    // })
-                    
+                    this.$root.eventHub.$on('ratingtypeSelect.ratings', this.selectTypeRating);
+					this.$root.eventHub.$on('contentToggle.ratings', this.onlyContentRating);
+
                 };
 			})
+		},
+		activated () {
+			// debugger
+			// this.$nextTick(() => {
+   //              this.scroll = new BScroll(this.$refs.ratings, {
+   //              	click: true
+   //              })
+                	
+   //          })
+   			// this.$root.eventHub.$on('ratingtypeSelect.ratings', this.selectTypeRating);
+			// this.$root.eventHub.$on('contentToggle.ratings', this.onlyContentRating);
+		},
+		afterEach () {
+			// this.$nextTick(() => {
+   //          	console.log(this)
+   //              this.scrollRatings = new BScroll(this.$refs.ratings, {
+   //              	click: true
+   //              })    	
+   //          })
+   //          this.$root.eventHub.$on('ratingtypeSelect.ratings', this.selectTypeRating);
+			// this.$root.eventHub.$on('contentToggle.ratings', this.onlyContentRating);
+
+		},
+		methods: {
+			selectTypeRating (type) {
+				// console.log(type)
+				// debugger
+				this.selectType = type;
+				this.$nextTick(() => {
+					// console.log(this)
+					this.scroll.refresh();
+				})
+			},
+			onlyContentRating (onlyContent) {
+				this.onlyContent = onlyContent;
+				this.$nextTick(() => {
+					// console.log(this)
+					this.scroll.refresh();
+				})
+			},
+			needShow (type, text) {
+				if (this.onlyContent && !text) {
+					return false;
+				}
+				if (this.selectType === ALL){
+					return true;
+				}else{
+					return type === this.selectType;
+				}
+			}
 		}
 	}
 
 </script>
 
 <style lang="scss">
+	@import "../../common/sass/mixin.scss";
 	.ratings{
 		position: absolute;
 		width: 100%;
@@ -202,11 +250,80 @@
 				}
 			}
 		}
-		.rating-wrapepr{
+		.rating-wrapper{
 			padding: 0 18px;
 			.rating-item{
 				display: flex;
-				
+				padding: 18px 0;
+				@include border-bottom-1px(rgba(7, 17, 27, 0.1));
+				.avatar{
+					flex: 0 0 28px;
+					width: 28px;
+					height: 28px;
+					margin-right: 12px;
+					img{
+						border-radius: 50%;
+					}
+				}
+				.content{
+					position: relative;
+					flex: 1;
+					.name{
+						line-height: 12px;
+						font-size: 10px;
+						margin-bottom: 4px;
+						color: rgb(7, 17, 27);
+					}
+					.star-wrapper{
+						margin-bottom: 6px;
+						font-size: 0;
+						.star{
+							display: inline-block;
+							margin-right: 6px;
+							vertical-align: top;
+						}
+						.delivery{
+							display: inline-block;
+							vertical-align: top;
+							font-size: 10px;
+							color: rgb(147, 153, 159);
+						}
+					}
+					.text{
+						line-height: 18px;
+						font-size: 12px;
+						color: rgb(7, 17, 27);
+						margin-bottom: 8px;
+					}
+					.recommend{
+						line-height: 16px;
+						font-size: 0;
+						.icon-pingjia_haoping, .item{
+							display: inline-block;
+							margin-right: 8px;
+							margin-bottom: 4px;
+							font-size: 9px;
+						}
+						.icon-pingjia_haoping{
+							color: rgb(0, 160, 220);
+						}
+						.item{
+							padding: 0 6px;
+							border: 1px solid rgba(7, 17, 27, 0.1);
+							border-radius: 1px;
+							color: rgb(147, 153, 159);
+							background: #fff;
+						}
+					}
+					.time{
+						position: absolute;
+						top: 0;
+						right: 0;
+						font-size: 10px;
+						color: rgb(147, 153, 159);
+
+					}
+				}
 			}
 		}
 	}

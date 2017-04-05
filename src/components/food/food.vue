@@ -33,7 +33,7 @@
 				<split></split>
 				<div class="rating">
 					<h1 class="title">商品评价</h1>
-					<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+					<ratingselect :select-form="'food'" :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
 					<div class="rating-wrapper">
 						<ul v-show="food.ratings && food.ratings.length">
 							<!-- <li v-for="rating in food.ratings" class="rating-item border-1px" v-show="selectType == rating.rateType || selectType == 2"> -->
@@ -80,8 +80,8 @@
 			ratingselect
 		},
 		created () {
-			this.$root.eventHub.$on('ratingtype.select', this.selectTypeRating);
-			this.$root.eventHub.$on('content.toggle', this.onlyContentRating);
+			this.$root.eventHub.$on('ratingtypeSelect.food', this.selectTypeRating);
+			this.$root.eventHub.$on('contentToggle.food', this.onlyContentRating);
 			
 		},
 		computed: {
@@ -114,7 +114,7 @@
 							click: true
 						})
 					} else {
-						console.log(this.scroll)
+						// console.log(this.scroll)
 						this.scroll.refresh();
 					}
 					
@@ -129,17 +129,17 @@
 				this.$root.eventHub.$emit('cart.add', event.target);
 			},
 			selectTypeRating (type) {
-				console.log(type)
+				// console.log(type)
 				this.selectType = type;
 				this.$nextTick(() => {
-					console.log(this)
+					// console.log(this)
 					this.scroll.refresh();
 				})
 			},
 			onlyContentRating (onlyContent) {
 				this.onlyContent = onlyContent;
 				this.$nextTick(() => {
-					console.log(this)
+					// console.log(this)
 					this.scroll.refresh();
 				})
 			},

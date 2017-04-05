@@ -45,7 +45,8 @@ const routes = [
     // { path: '/', component: Goods },
     { path: '/goods', component: Goods },
     { path: '/ratings', component: Ratings },
-    { path: '/seller', component: Seller }
+    { path: '/seller', component: Seller },
+    { path: '*', component: Goods }
 ];
 
 const router = new VueRouter({
@@ -66,4 +67,4 @@ new Vue({
         eventHub: new Vue()
     }
 });
-router.push('goods');
+// router.push('goods');

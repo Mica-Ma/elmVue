@@ -41,6 +41,10 @@
 						negative: '不满意'
 					}
 				}
+			},
+			selectForm: {
+				type: String,
+				default: ''
 			}
 		},
 		computed: {
@@ -65,22 +69,22 @@
 			select (type, event) {
 				if(!event._constructed) return;
 				this.mySelectType = type;
-				this.$root.eventHub.$emit('ratingtype.select', type);
+				this.$root.eventHub.$emit(`ratingtypeSelect.${this.selectForm}`, type);
 				// console.log(this.selectType)
 			},
 			toggleContent (event) {
 				if(!event._constructed) return;
 				this.myOnlyContent = !this.myOnlyContent;
-				this.$root.eventHub.$emit('content.toggle', this.myOnlyContent);
+				this.$root.eventHub.$emit(`contentToggle.${this.selectForm}`, this.myOnlyContent);
 			}
 		},
 		watch: {
-			// selectType (val) {
-			// 	this.mySelectType = val;
-			// },
-			// mySelectType (val) {
-			// 	this.$root.eventHub.$emit('ratingtype.select', val);
-			// },
+			selectType (val) {
+				this.mySelectType = val;
+			},
+			mySelectType (val) {
+				this.$root.eventHub.$emit('ratingtype.select', val);
+			}
 		}
 	}
 </script>
