@@ -35,11 +35,14 @@
             <div class="tab-item"><router-link to="/ratings">评论</router-link></div>
             <div class="tab-item"><router-link to="/seller">商家</router-link></div>
         </div>
-        <router-view :seller="seller"></router-view>
+        <keep-alive>
+            <router-view :seller="seller"></router-view>
+        </keep-alive>
     </div>
 </template>
 
 <script>
+    import { urlParse } from 'common/js/util'
     import header from './components/header/header.vue';
     // import tab from './components/tab/tab.vue';
     import { Toast } from 'mint-ui';
@@ -49,7 +52,13 @@
     export default {
         data () {
             return {
-                seller: {}
+                seller: {
+                    id: (() => {
+                        let queryParam = urlParse();
+                        // console.log(queryParam)
+                        return queryParam.id;
+                    })()
+                }
             };
         },
         name: 'app',
@@ -58,12 +67,14 @@
             // 'v-tab': tab
         },
         created () {
-            this.axios.get('/api/seller').then((response) => {
+            this.axios.get('/api/seller?id='+ this.seller.id).then((response) => {
                 // console.log(response.data);
                 // this.seller = response.data
                 if (response.data.errno === ERR_OK) {
                     // debugger
-                    this.seller = response.data.data
+                    // this.seller = response.data.data
+                    this.seller = Object.assign({}, this.seller, response.data.data)
+                    // console.log(this.seller)
                 };
                 // console.log(this.seller);
             });

@@ -69,6 +69,7 @@
 </template>
 	
 <script>
+	import {saveToLocal, loadFromLocal} from "common/js/store"
 	import BScroll from "better-scroll"
 	import star from "components/star/star";
 	import split from "components/split/split";
@@ -83,7 +84,9 @@
 		},
 		data () {
 			return {
-				favorite: false
+				favorite: (() => {
+					return loadFromLocal(this.seller.id, 'favorite', false)
+				})()
 			}
 		},
 		computed: {
@@ -122,11 +125,14 @@
 				// console.log(this.seller)
 				// console.log(this.seller)
 				if(this.scroll) {
+					this.scroll.destroy();
 					this.$delete(this.scroll, 'scroll')
 				}
+				// console.log(this)
 				// if(!this.scroll) {
 					this.$nextTick(() => {
 						// console.log(this.$refs.seller)
+						// console.log(this.scroll)
 						this.scroll = new BScroll(this.$refs.seller, {
 							click: true
 						})
@@ -157,7 +163,8 @@
 				// console.log(event)
 				if(!event._constructed) return;
 				// console.log(this.favorite)
-				this.favorite = !this.favorite
+				this.favorite = !this.favorite;
+				saveToLocal(this.seller.id, 'favorite', this.favorite)
 			}
 		}
 	}
