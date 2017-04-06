@@ -79,12 +79,12 @@
 			}
 		},
 		watch: {
-			selectType (val) {
-				this.mySelectType = val;
-			},
-			mySelectType (val) {
-				this.$root.eventHub.$emit('ratingtype.select', val);
-			}
+			// selectType (val) {
+			// 	this.mySelectType = val;
+			// },
+			// mySelectType (val) {
+			// 	this.$root.eventHub.$emit('ratingtype.select', val);
+			// }
 		}
 	}
 </script>

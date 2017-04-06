@@ -42,10 +42,10 @@
 </template>
 
 <script>
-    import { urlParse } from 'common/js/util'
+    import { urlParse } from 'common/js/util';
     import header from './components/header/header.vue';
     // import tab from './components/tab/tab.vue';
-    import { Toast } from 'mint-ui';
+    // import { Toast } from 'mint-ui';
 
     const ERR_OK = 0;
 
@@ -80,9 +80,9 @@
             });
         },
         methods: {
-            onClick () {
-                Toast('搜索关键字不可为空');
-            },
+            // onClick () {
+            //     Toast('搜索关键字不可为空');
+            // },
             loadTop () {
                 // ...// load more data
                 setTimeout(() => {
