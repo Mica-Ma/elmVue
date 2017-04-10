@@ -78,6 +78,20 @@
                 };
                 // console.log(this.seller);
             });
+            this.axios.post('/linktown/index/enjoyScene/list').then((response) => {
+                console.log(response)
+                // console.log(response.data);
+                // this.seller = response.data
+                // if (response.data.errno === ERR_OK) {
+                    // debugger
+                    // this.seller = response.data.data
+                    // this.seller = Object.assign({}, this.seller, response.data.data)
+                    // console.log(this.seller)
+                // };
+                // console.log(this.seller);
+            }, (rej) => {
+                console.log(rej)
+            });
         },
         methods: {
             // onClick () {

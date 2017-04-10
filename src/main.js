@@ -12,7 +12,7 @@ import VueAxios from 'vue-axios';
 // import routes from './router';
 
 // import vueTap from 'v-tap'
-// import fastclick from 'fastclick'
+// import fastclick from 'fastclick';
 // import Vuex from 'vuex'
 
 import Goods from './components/goods/goods';
@@ -61,8 +61,11 @@ new Vue({
     el: '#app',
     router,
     // store,
-    template: '<App/>',
-    components: { App },
+    // 1.0
+    // template: '<App/>',
+    // components: { App },
+    // 2.0
+    render: x => x(App),
     data: {
         eventHub: new Vue()
     }

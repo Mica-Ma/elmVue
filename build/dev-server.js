@@ -22,8 +22,12 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 
+//将服务器代理到http://172.16.103.161:8080端口上[本地服务器为localhost:8081]
+const apiProxy = proxyMiddleware('/linktown', { target: 'http://ldapi.cdxzhi.com',changeOrigin: true })
+//api子目录下的都是用代理
+app.use('/linktown/*', apiProxy)
 
-
+// 本地假数据
 var appData = require('../data.json');
 var seller = appData.seller;
 var goods = appData.goods;
@@ -53,6 +57,10 @@ apiRoutes.get('/ratings', function (req, res) {
 });
 
 app.use('/api', apiRoutes);
+
+// app.set('trust proxy', function () {
+//   return true;
+// })
 
 
 
@@ -92,6 +100,9 @@ app.use(devMiddleware)
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware)
+
+
+
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
